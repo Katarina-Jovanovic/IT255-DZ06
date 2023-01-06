@@ -1,0 +1,70 @@
+<h3>Dodajte Let</h3>
+
+
+
+<form [formGroup]="angForm" (ngSubmit)=" angForm.status !== 'INVALID' &&validacija()">
+
+    <div>
+        <label for="title">ID leta:</label>
+        <input type="text"class="form-contol" id="title" #newtitle formControlName="title" [ngClass]="{error: getControl('title')?.errors && getControl('title')?.touched}">
+    <div *ngIf="getControl('title')?.errors && getControl('title')?.touched">
+<small class="text-danger" *ngIf="getControl('title')?.errors?.['required']">Obavezno polje</small>
+<small class="text-danger" *ngIf="getControl('title')?.errors?.['minLength']">Ne sme manje od 6 karakter</small>    
+</div>
+</div>
+    <div>
+        <label for="link">Vreme polaska:</label>
+        <input type="text"class="form-contol" id="link" #newlink formControlName="link" [ngClass]="{error: getControl('link')?.errors && getControl('link')?.touched}">
+        <div *ngIf="getControl('link')?.errors && getControl('link')?.touched">
+            <small class="text-danger" *ngIf="getControl('link')?.errors?.['required']">Obavezno polje</small>
+            <small class="text-danger" *ngIf="getControl('link')?.errors?.['minLength']">Ne sme manje od 6 karakter</small>    
+            </div>
+    
+    </div>
+    <div>
+        <label for="mesto">Mesto polaska:</label>
+        <input type="text"class="form-contol" id="mesto" formControlName="mesto" #newmesto [ngClass]="{error: getControl('mesto')?.errors && getControl('mesto')?.touched}">
+        <div *ngIf="getControl('mesto')?.errors && getControl('mesto')?.touched">
+            <small class="text-danger" *ngIf="getControl('mesto')?.errors?.['required']">Obavezno polje</small>
+            <small class="text-danger" *ngIf="getControl('mesto')?.errors?.['minLength']">Ne sme manje od 6 karakter</small>    
+            </div>
+    </div>
+    <div>
+        <label for="vremeD">Vreme dolaska:</label>
+        <input type="text"class="form-contol" id="vremeD" formControlName="vremeD"#newvreme [ngClass]="{error: getControl('vremeD')?.errors && getControl('vremeD')?.touched}">
+        <div *ngIf="getControl('vremeD')?.errors && getControl('vremeD')?.touched">
+            <small class="text-danger" *ngIf="getControl('vremeD')?.errors?.['required']">Obavezno polje</small>
+            <small class="text-danger" *ngIf="getControl('vremeD')?.errors?.['minLength']">Ne sme manje od 6 karakter</small>    
+            </div>
+    </div>
+    <div>
+        <label for="mestoD">Mesto dolaska:</label>
+        <input type="text"class="form-contol" id="mestoD" formControlName="mestoD"#newmestoD [ngClass]="{error: getControl('mestoD')?.errors && getControl('mestoD')?.touched}">
+        <div *ngIf="getControl('mestoD')?.errors && getControl('mestoD')?.touched">
+            <small class="text-danger" *ngIf="getControl('mestoD')?.errors?.['required']">Obavezno polje</small>
+            <small class="text-danger" *ngIf="getControl('mestoD')?.errors?.['minLength']">Ne sme manje od 6 karakter</small>    
+            </div>
+    </div>
+    <div>
+
+        <label for="Hrana">Gratis hrana:</label>
+        <input type="checkbox" id="hrana" [checked]="values === 'hrana'" (click)="values = 'hrana'" /><br>
+        <label for="Biznis klasa">Biznis klasa:</label>
+        <input type="checkbox" id="klasa" value="klasa" [checked]="values === 'klasa'" (click)="values = 'klasa'"/><br>
+        <label for="direktan">Direktan let:</label>
+        <input type="checkbox" id="let" value="let" [checked]="values === 'let'" (click)="values = 'let'" />
+    </div>
+    <div *ngIf="values === 'hrana'">
+        <b>RACUN VAM SE UVECAO ZA 1000 dinara.</b>
+     </div>   
+     <div *ngIf="values === 'klasa'">
+        <b>RACUN VAM SE UVECAO ZA 10000 dinara.</b>
+     </div> 
+     <div *ngIf="values === 'let'">
+        <b>RACUN VAM SE UVECAO ZA 15000 dinara.</b>
+     </div> 
+
+
+    <input type="submit" [disabled]="angForm.status==='INVALID'" class="btn btn-success">
+</form>
+
