@@ -1,7 +1,14 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { GetPosts } from './interfaces/actions/post.actions';
+import { selectedPosts } from './interfaces/selector/post.selector';
+import { PostState } from './interfaces/state/post.state';
 import { Post } from './services/Post';
 import { PostService } from './services/post.service';
+
 
 
 
@@ -11,16 +18,26 @@ import { PostService } from './services/post.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  public posts$: Observable<Post>;
+  _postService: any;
+
+  constructor(private _store: Store<PostState>, private _router: Router) {
+    this.posts$ = this._store.pipe(select(selectedPosts));
+    }
+
+  ngOnInit() {
+    this._store.dispatch(new GetPosts());
+    }
   
   public postForm?: FormGroup; 
   public posts: Post[] = [];
 
-constructor(private _postService: PostService) {
-this._postService.getPosts().subscribe((data) => {
-})
-this.initForm();
-}
-public initForm() {
+  
+
+
+
+
+public initForm(): void {
 this.postForm = new FormGroup({
 idLeta:new FormControl('',[Validators.required]),
 vremeD: new FormControl('', [Validators.required]),
@@ -41,23 +58,23 @@ let post = new Post(idLeta,vremeD,mestoD, mestoP,vremeP);
 this.createPost(post)
 }
 public getPost(id: number) {
-this._postService.getPost(id).subscribe((data) => {
+this._postService.getPost(id).subscribe((data: any) => {
 alert(JSON.stringify(data));
 })
 }
 public createPost(post: Post) {
-this._postService.createPost(post).subscribe((data) => {
+this._postService.createPost(post).subscribe((data: Post) => {
 this.posts.unshift(data);
 })
 }
 public deletePost(id: number) {
-this._postService.deletePost(id).subscribe((data) => {
+this._postService.deletePost(id).subscribe((data: any) => {
 this._removePostFromList(id);
 alert("Post je obrisan sa servera");
 })
 }
 public updatePost(data:any,id:number){
-  this._postService.updatePost(data,id).subscribe((data) => {
+  this._postService.updatePost(data,id).subscribe((data: Post) => {
     this.posts.unshift(data);
     })
 }
